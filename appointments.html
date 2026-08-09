@@ -129,7 +129,7 @@ nav.primary a:hover,nav.primary a.active{color:var(--coral-deep);}
 .appt-hero{
   background:linear-gradient(135deg,var(--ink) 0%,var(--ink-soft) 100%);
   color:var(--cream);
-  padding:60px 24px 56px;
+  padding:28px 24px 24px;
   text-align:center;
   position:relative;
   overflow:hidden;
@@ -149,37 +149,37 @@ nav.primary a:hover,nav.primary a.active{color:var(--coral-deep);}
 .appt-hero .eyebrow{color:var(--gold);position:relative;z-index:1;}
 .appt-hero .eyebrow::before{background:var(--gold);}
 .appt-hero h1{
-  font-size:clamp(28px,4vw,48px);
+  font-size:clamp(22px,3vw,36px);
   color:var(--cream);
-  margin:14px 0 14px;
+  margin:0 0 8px;
   font-weight:700;
   position:relative;z-index:1;
 }
 .appt-hero p{
-  font-size:16px;
-  color:rgba(255,255,255,0.8);
-  max-width:520px;
-  margin:0 auto 28px;
+  font-size:14px;
+  color:rgba(255,255,255,0.75);
+  max-width:480px;
+  margin:0 auto 16px;
   position:relative;z-index:1;
 }
 .hero-pills{
-  display:flex;gap:14px;justify-content:center;flex-wrap:wrap;
+  display:flex;gap:10px;justify-content:center;flex-wrap:wrap;
   position:relative;z-index:1;
 }
 .pill{
-  display:inline-flex;align-items:center;gap:8px;
-  background:rgba(255,255,255,0.12);
-  border:1px solid rgba(255,255,255,0.22);
-  border-radius:100px;padding:8px 18px;
-  font-family:'JetBrains Mono',monospace;font-size:12.5px;font-weight:700;
-  color:rgba(255,255,255,0.9);letter-spacing:0.06em;
+  display:inline-flex;align-items:center;gap:7px;
+  background:rgba(255,255,255,0.1);
+  border:1px solid rgba(255,255,255,0.18);
+  border-radius:100px;padding:6px 14px;
+  font-family:'JetBrains Mono',monospace;font-size:11.5px;font-weight:700;
+  color:rgba(255,255,255,0.85);letter-spacing:0.05em;
 }
 .pill-dot{width:7px;height:7px;border-radius:50%;background:var(--gold);}
 
 /* ── BOOKING SECTION WRAPPER ── */
 .booking-outer{
-  background:var(--cream-deep);
-  padding:64px 24px 80px;
+  background:var(--white);
+  padding:0 24px 0;
 }
 .booking-inner{
   max-width:1140px;
@@ -205,7 +205,7 @@ nav.primary a:hover,nav.primary a.active{color:var(--coral-deep);}
 /* ── TWO-COLUMN LAYOUT ── */
 .booking-layout{
   display:grid;
-  grid-template-columns:320px 1fr;
+  grid-template-columns:300px 1fr;
   border-radius:28px;
   border:1px solid var(--line);
   box-shadow:0 40px 100px -40px rgba(18,60,84,0.32);
@@ -216,10 +216,11 @@ nav.primary a:hover,nav.primary a.active{color:var(--coral-deep);}
 /* ── LEFT SIDEBAR ── */
 .booking-sidebar{
   background:linear-gradient(160deg,var(--ink) 0%,var(--ink-soft) 100%);
-  padding:40px 30px 40px;
+  padding:40px 28px;
   display:flex;
   flex-direction:column;
-  gap:32px;
+  justify-content:space-between;
+  gap:0;
   position:relative;
   overflow:hidden;
 }
@@ -302,50 +303,49 @@ nav.primary a:hover,nav.primary a.active{color:var(--coral-deep);}
   display:flex;align-items:center;justify-content:center;
   flex-shrink:0;
 }
-/* Contact block */
-.sb-contact{position:relative;z-index:1;}
-.sb-contact h5{
-  font-size:10px;font-family:'JetBrains Mono',monospace;font-weight:700;
-  letter-spacing:0.14em;text-transform:uppercase;
-  color:var(--gold);margin:0 0 12px;
+/* Help CTA */
+.sb-help{position:relative;z-index:1;text-align:center;}
+.sb-help-label{
+  font-size:12px;color:rgba(255,255,255,0.5);
+  margin:0 0 10px;font-style:italic;
 }
-.sb-contact-item{
-  display:flex;gap:10px;align-items:flex-start;
-  margin-bottom:10px;
+.sb-help-btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  width:100%;padding:12px 16px;
+  background:rgba(255,255,255,0.1);
+  border:1px solid rgba(255,255,255,0.2);
+  border-radius:12px;
+  font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:700;
+  color:#fff;text-decoration:none;
+  transition:background .18s ease;
 }
-.sb-contact-item:last-child{margin-bottom:0;}
-.sb-contact-icon{
-  font-size:14px;margin-top:1px;flex-shrink:0;
-  width:24px;text-align:center;
+.sb-help-btn:hover{background:rgba(240,169,59,0.2);border-color:var(--gold);}
+.sb-help-sub{
+  font-size:11px;color:rgba(255,255,255,0.35);
+  margin:8px 0 0;
 }
-.sb-contact-text{
-  font-size:12.5px;color:rgba(255,255,255,0.7);
-  line-height:1.55;
-}
-.sb-contact-text a{color:rgba(255,255,255,0.85);text-decoration:none;}
-.sb-contact-text a:hover{color:var(--gold);}
 
 /* ── RIGHT: BOOKING WIDGET ── */
 .booking-main{
   background:var(--white);
   position:relative;
-  min-height:860px;
 }
 .booking-widget-wrap{
   position:relative;
+  height:820px;
   overflow:hidden;
-  height:1000px;
 }
 .booking-widget-wrap iframe{
   width:100%;
-  height:calc(1000px + 120px);
-  margin-top:-120px;
+  height:100%;
   border:none;
   display:block;
+  scrollbar-width:none;
 }
+.booking-widget-wrap iframe::-webkit-scrollbar{display:none;}
 
 /* ── FOOTER ── */
-footer{background:var(--ink);color:rgba(251,246,236,0.8);padding:64px 0 26px;margin-top:40px;}
+footer{background:var(--ink);color:rgba(251,246,236,0.8);padding:64px 0 26px;margin-top:0;}
 .foot-grid{display:grid;grid-template-columns:1.4fr 0.8fr 0.8fr 1fr;gap:40px;}
 .foot-brand{display:flex;align-items:center;gap:12px;margin-bottom:16px;}
 .foot-logo-full{
@@ -423,7 +423,6 @@ footer ul a:hover{color:var(--gold);}
 
 <!-- ── HERO ── -->
 <section class="appt-hero">
-  <span class="eyebrow">Care Plasma · NYC</span>
   <h1>Book an Appointment</h1>
   <p>Pick a time that works for you. Your first donation could earn you up to <strong style="color:var(--gold);">$100</strong> — and up to <strong style="color:var(--gold);">$500</strong> your first month.</p>
   <div class="hero-pills">
@@ -436,13 +435,6 @@ footer ul a:hover{color:var(--gold);}
 <!-- ── BOOKING SECTION ── -->
 <div class="booking-outer">
   <div class="booking-inner">
-
-    <!-- Section label -->
-    <div class="booking-section-label">
-      <span class="eyebrow">Schedule · Care Plasma NYC</span>
-      <h2>Book Your Appointment</h2>
-      <p>Choose a convenient time online. Walk-ins are also welcome during regular center hours.</p>
-    </div>
 
     <!-- Two-column layout -->
     <div class="booking-layout">
@@ -496,21 +488,11 @@ footer ul a:hover{color:var(--gold);}
 
         <div class="sb-divider"></div>
 
-        <!-- Contact -->
-        <div class="sb-contact">
-          <h5>Center Info</h5>
-          <div class="sb-contact-item">
-            <span class="sb-contact-icon">📍</span>
-            <span class="sb-contact-text">1400 5th Avenue<br>New York, NY 10026</span>
-          </div>
-          <div class="sb-contact-item">
-            <span class="sb-contact-icon">📞</span>
-            <span class="sb-contact-text"><a href="tel:+12129969500">212.996.9500</a></span>
-          </div>
-          <div class="sb-contact-item">
-            <span class="sb-contact-icon">🕐</span>
-            <span class="sb-contact-text">Mon – Sat · Walk-ins Welcome<br>~60 min per return visit</span>
-          </div>
+        <!-- Help CTA -->
+        <div class="sb-help">
+          <p class="sb-help-label">Questions before you book?</p>
+          <a href="tel:+12129969500" class="sb-help-btn">📞 212.996.9500</a>
+          <p class="sb-help-sub">Mon – Sat · Walk-ins also welcome</p>
         </div>
 
       </aside>
@@ -520,8 +502,9 @@ footer ul a:hover{color:var(--gold);}
         <div class="booking-widget-wrap">
           <iframe
             id="ssaBookingFrame"
-            src="https://www.appointments.careplasma.com/"
+            src="https://www.appointments.careplasma.com/wp-json/ssa/v1/embed-inner?sid=ea0eafff32a625f1d03ac78646e61a5303692c55&appointment_types_view=cardList&accent_color=123C54&booking_url=https%3A%2F%2Fwww.appointments.careplasma.com%2F&booking_post_id=1176&hide_header#/"
             title="Book a Plasma Donation Appointment"
+            scrolling="no"
             allowtransparency="true"
             loading="lazy">
           </iframe>
@@ -596,16 +579,13 @@ footer ul a:hover{color:var(--gold);}
 
   /* Auto-expand iframe to show all booking steps */
   var frame = document.getElementById('ssaBookingFrame');
-  var wrap  = frame ? frame.parentElement : null;      /* .booking-widget-wrap */
-  var main  = wrap  ? wrap.parentElement  : null;      /* .booking-main */
-  var CLIP  = 120; /* px clipped from top to hide internal logo header */
+  var wrap  = frame ? frame.parentElement : null;  /* .booking-widget-wrap */
+  var main  = wrap  ? wrap.parentElement  : null;  /* .booking-main */
 
   function setH(contentH){
-    var iframeH = Math.max(1000 + CLIP, contentH + CLIP + 80);
-    var wrapH   = iframeH - CLIP;
-    frame.style.height = iframeH + 'px';
-    if(wrap) wrap.style.height = wrapH + 'px';
-    if(main) main.style.minHeight = wrapH + 'px';
+    var h = Math.max(820, contentH + 40);
+    frame.style.height = h + 'px';
+    if(wrap) wrap.style.height = h + 'px';
   }
 
   /* Listen for SSA postMessage resize events */
