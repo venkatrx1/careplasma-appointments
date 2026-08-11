@@ -325,24 +325,72 @@ nav.primary a:hover,nav.primary a.active{color:var(--coral-deep);}
   margin:8px 0 0;
 }
 
-/* ── RIGHT: BOOKING WIDGET ── */
+/* ── RIGHT: BOOKING FORM ── */
 .booking-main{
   background:var(--white);
   position:relative;
+  padding:40px 44px;
 }
-.booking-widget-wrap{
-  position:relative;
-  height:820px;
-  overflow:hidden;
+.bf-header{margin-bottom:24px;}
+.bf-header h3{font-size:24px;margin-bottom:6px;}
+.bf-header p{font-size:13px;color:var(--ink-soft);margin:0;}
+.req{color:var(--coral-deep);}
+.opt{color:var(--ink-soft);font-weight:400;font-size:12px;}
+
+.bf-section{margin-bottom:20px;}
+.bf-label{
+  display:block;font-family:'Manrope',sans-serif;font-size:12.5px;font-weight:700;
+  text-transform:uppercase;letter-spacing:0.05em;color:var(--ink);margin-bottom:8px;
 }
-.booking-widget-wrap iframe{
-  width:100%;
-  height:100%;
-  border:none;
-  display:block;
-  scrollbar-width:none;
+.bf-radio-group{display:flex;gap:12px;flex-wrap:wrap;}
+.bf-radio{
+  display:flex;align-items:center;gap:8px;padding:10px 16px;
+  border:1.5px solid var(--line);border-radius:100px;cursor:pointer;
+  font-size:13.5px;transition:border-color .15s ease,background .15s ease;
 }
-.booking-widget-wrap iframe::-webkit-scrollbar{display:none;}
+.bf-radio input{accent-color:var(--coral);}
+.bf-radio:has(input:checked){border-color:var(--coral);background:rgba(226,84,63,0.06);}
+
+.bf-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;}
+.bf-field{display:flex;flex-direction:column;}
+.bf-field-sm{max-width:140px;}
+.bf-field input,.bf-field select,.bf-field textarea{
+  font-family:'Inter',sans-serif;font-size:14.5px;color:var(--ink);
+  padding:12px 14px;border:1.5px solid var(--line);border-radius:12px;
+  background:var(--cream-deep);outline:none;
+  transition:border-color .15s ease,background .15s ease;
+}
+.bf-field input:focus,.bf-field select:focus,.bf-field textarea:focus{
+  border-color:var(--sky);background:var(--white);
+}
+.bf-field textarea{resize:vertical;font-family:'Inter',sans-serif;}
+
+.bf-divider{height:1px;background:var(--line);margin:24px 0;}
+
+.bf-error{
+  background:rgba(226,84,63,0.08);border:1px solid rgba(226,84,63,0.3);
+  color:var(--coral-deep);padding:12px 16px;border-radius:12px;
+  font-size:13.5px;margin-bottom:16px;
+}
+
+.bf-submit{width:100%;padding:16px;font-size:15.5px;margin-top:8px;}
+.bf-disclaimer{font-size:11.5px;color:var(--ink-soft);text-align:center;margin:12px 0 0;}
+
+.bf-success{text-align:center;padding:60px 20px;}
+.bf-success-icon{
+  width:64px;height:64px;border-radius:50%;
+  background:linear-gradient(135deg,var(--gold),var(--gold-deep));
+  color:var(--white);font-size:30px;font-weight:700;
+  display:flex;align-items:center;justify-content:center;margin:0 auto 20px;
+}
+.bf-success h3{font-size:24px;margin-bottom:10px;}
+.bf-success p{font-size:14.5px;color:var(--ink-soft);max-width:420px;margin:0 auto 24px;}
+
+@media(max-width:600px){
+  .bf-row{grid-template-columns:1fr;}
+  .bf-field-sm{max-width:100%;}
+  .booking-main{padding:28px 22px;}
+}
 
 /* ── FOOTER ── */
 footer{background:var(--ink);color:rgba(251,246,236,0.8);padding:64px 0 26px;margin-top:0;}
@@ -497,18 +545,81 @@ footer ul a:hover{color:var(--gold);}
 
       </aside>
 
-      <!-- RIGHT: BOOKING WIDGET -->
+      <!-- RIGHT: BOOKING FORM -->
       <div class="booking-main">
-        <div class="booking-widget-wrap">
-          <iframe
-            id="ssaBookingFrame"
-            src="https://www.appointments.careplasma.com/wp-json/ssa/v1/embed-inner?sid=ea0eafff32a625f1d03ac78646e61a5303692c55&appointment_types_view=cardList&accent_color=123C54&booking_url=https%3A%2F%2Fwww.appointments.careplasma.com%2F&booking_post_id=1176&hide_header#/"
-            title="Book a Plasma Donation Appointment"
-            scrolling="no"
-            allowtransparency="true"
-            loading="lazy">
-          </iframe>
+
+        <form class="booking-form" id="bookingForm" novalidate>
+          <div class="bf-header">
+            <h3>Schedule Your Visit</h3>
+            <p>Fields marked <span class="req">*</span> are required.</p>
+          </div>
+
+          <div class="bf-section">
+            <label class="bf-label">Appointment Type <span class="req">*</span></label>
+            <div class="bf-radio-group">
+              <label class="bf-radio"><input type="radio" name="apptType" value="new" checked><span>New Donor — First Visit</span></label>
+              <label class="bf-radio"><input type="radio" name="apptType" value="returning"><span>Returning Donor</span></label>
+            </div>
+          </div>
+
+          <div class="bf-row">
+            <div class="bf-field">
+              <label class="bf-label" for="apptDate">Date <span class="req">*</span></label>
+              <input type="date" id="apptDate" name="apptDate" required>
+            </div>
+            <div class="bf-field">
+              <label class="bf-label" for="apptTime">Time <span class="req">*</span></label>
+              <select id="apptTime" name="apptTime" required>
+                <option value="" disabled selected>Select a time</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="bf-divider"></div>
+
+          <div class="bf-row">
+            <div class="bf-field">
+              <label class="bf-label" for="fullName">Full Name <span class="req">*</span></label>
+              <input type="text" id="fullName" name="fullName" placeholder="Jane Doe" required>
+            </div>
+            <div class="bf-field bf-field-sm">
+              <label class="bf-label" for="age">Age <span class="req">*</span></label>
+              <input type="number" id="age" name="age" min="18" max="99" placeholder="18+" required>
+            </div>
+          </div>
+
+          <div class="bf-row">
+            <div class="bf-field">
+              <label class="bf-label" for="email">Email <span class="req">*</span></label>
+              <input type="email" id="email" name="email" placeholder="jane@email.com" required>
+            </div>
+            <div class="bf-field">
+              <label class="bf-label" for="phone">Phone <span class="req">*</span></label>
+              <input type="tel" id="phone" name="phone" placeholder="(212) 555-0100" required>
+            </div>
+          </div>
+
+          <div class="bf-field" style="margin-bottom:20px;">
+            <label class="bf-label" for="notes">Notes <span class="opt">(optional)</span></label>
+            <textarea id="notes" name="notes" rows="3" placeholder="Anything we should know before your visit?"></textarea>
+          </div>
+
+          <div class="bf-error" id="bfError" role="alert" hidden></div>
+
+          <!-- Honeypot: bots fill every field, real users leave this blank/hidden -->
+          <input type="text" name="_honey" id="bfHoney" autocomplete="off" tabindex="-1" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0;">
+
+          <button type="submit" class="btn btn-primary bf-submit">Book My Appointment →</button>
+          <p class="bf-disclaimer">By booking, you agree to be contacted by Care Plasma to confirm your appointment.</p>
+        </form>
+
+        <div class="bf-success" id="bfSuccess" hidden>
+          <div class="bf-success-icon">✓</div>
+          <h3>Appointment Requested!</h3>
+          <p>Thanks, <span id="bfSuccessName"></span> — we've received your request for <span id="bfSuccessDateTime"></span>. Our team will reach out to confirm.</p>
+          <button type="button" class="btn btn-gold" id="bfBookAnother">Book Another Appointment</button>
         </div>
+
       </div>
 
     </div><!-- /booking-layout -->
@@ -577,33 +688,144 @@ footer ul a:hover{color:var(--gold);}
     toggle.textContent = open ? '✕' : '☰';
   });
 
-  /* Auto-expand iframe to show all booking steps */
-  var frame = document.getElementById('ssaBookingFrame');
-  var wrap  = frame ? frame.parentElement : null;  /* .booking-widget-wrap */
-  var main  = wrap  ? wrap.parentElement  : null;  /* .booking-main */
+  /* ── BOOKING FORM ── */
+  var MAILER_ENDPOINT = 'https://careplasma-mailer-api.venkatrx1.workers.dev';
 
-  function setH(contentH){
-    var h = Math.max(820, contentH + 40);
-    frame.style.height = h + 'px';
-    if(wrap) wrap.style.height = h + 'px';
+  var form = document.getElementById('bookingForm');
+  var successPanel = document.getElementById('bfSuccess');
+  var errorBox = document.getElementById('bfError');
+  var dateInput = document.getElementById('apptDate');
+  var timeSelect = document.getElementById('apptTime');
+  var submitBtn = form.querySelector('.bf-submit');
+  var submitBtnLabel = submitBtn.textContent;
+
+  /* Restrict date picker to today .. +90 days */
+  var today = new Date();
+  dateInput.min = today.toISOString().split('T')[0];
+  var maxDate = new Date(today);
+  maxDate.setDate(maxDate.getDate() + 90);
+  dateInput.max = maxDate.toISOString().split('T')[0];
+
+  /* Populate time slots: Mon–Sat, 9:00 AM – 5:00 PM, 30-min increments */
+  function buildTimeSlots(){
+    timeSelect.innerHTML = '<option value="" disabled selected>Select a time</option>';
+    for(var h = 9; h < 17; h++){
+      [0, 30].forEach(function(m){
+        var hour12 = h > 12 ? h - 12 : h;
+        var ampm = h >= 12 ? 'PM' : 'AM';
+        var label = hour12 + ':' + (m === 0 ? '00' : m) + ' ' + ampm;
+        var value = String(h).padStart(2, '0') + ':' + (m === 0 ? '00' : m);
+        var opt = document.createElement('option');
+        opt.value = value;
+        opt.textContent = label;
+        timeSelect.appendChild(opt);
+      });
+    }
   }
+  buildTimeSlots();
 
-  /* Listen for SSA postMessage resize events */
-  window.addEventListener('message', function(e){
-    if(!frame) return;
-    if(e.data && e.data.type === 'ssa-resize' && e.data.height){ setH(e.data.height); }
-    if(e.data && typeof e.data === 'object' && e.data.height && e.data.height > 200){ setH(e.data.height); }
+  dateInput.addEventListener('change', function(){
+    var d = new Date(dateInput.value + 'T00:00:00');
+    if(d.getDay() === 0){
+      showError("We're closed on Sundays — please choose Monday through Saturday.");
+      dateInput.value = '';
+    } else {
+      hideError();
+    }
   });
 
-  /* Fallback: poll iframe content height every 600ms while same-origin allows it */
-  function tryExpand(){
-    try {
-      var doc = frame.contentDocument || frame.contentWindow.document;
-      var h = doc.body ? doc.body.scrollHeight : 0;
-      if(h > 200) setH(h);
-    } catch(err){ /* cross-origin — rely on postMessage only */ }
+  function showError(msg){
+    errorBox.textContent = msg;
+    errorBox.hidden = false;
   }
-  setInterval(tryExpand, 600);
+  function hideError(){
+    errorBox.hidden = true;
+  }
+
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    hideError();
+
+    var data = {
+      appointmentType: form.apptType.value,
+      date: form.apptDate.value,
+      time: form.apptTime.value,
+      fullName: form.fullName.value.trim(),
+      age: form.age.value,
+      email: form.email.value.trim(),
+      phone: form.phone.value.trim(),
+      notes: form.notes.value.trim()
+    };
+
+    if(!data.date || !data.time){ showError('Please select a date and time.'); return; }
+    if(!data.fullName){ showError('Please enter your full name.'); return; }
+    if(!data.age || Number(data.age) < 18){ showError('You must be at least 18 years old to donate.'); return; }
+    if(!data.email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email)){ showError('Please enter a valid email address.'); return; }
+    if(!data.phone || data.phone.replace(/\D/g, '').length < 10){ showError('Please enter a valid phone number.'); return; }
+
+    submitAppointment(data);
+  });
+
+  /* Relays the request through the careplasma-mailer-api Cloudflare Worker
+     (github.com/venkatrx1/careplasmamailer), which emails MAIL_TO via the
+     Gmail API. The worker only recognizes generic name/email/phone/subject/
+     message fields, so date/time/age/notes are folded into the message body. */
+  function submitAppointment(data){
+    var dt = new Date(data.date + 'T00:00:00');
+    var dateLabel = dt.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' });
+    var timeLabel = timeSelect.options[timeSelect.selectedIndex].textContent;
+    var typeLabel = data.appointmentType === 'returning' ? 'Returning Donor' : 'New Donor — First Visit';
+
+    var message =
+      'Appointment Type: ' + typeLabel + '\n' +
+      'Requested Date: ' + dateLabel + '\n' +
+      'Requested Time: ' + timeLabel + '\n' +
+      'Age: ' + data.age + '\n' +
+      'Notes: ' + (data.notes || '(none)');
+
+    var payload = new FormData();
+    payload.append('name', data.fullName);
+    payload.append('email', data.email);
+    payload.append('phone', data.phone);
+    payload.append('subject', typeLabel + ' — ' + dateLabel);
+    payload.append('message', message);
+    payload.append('_subject', 'New Appointment Request — Care Plasma');
+    payload.append('_from_name', 'Care Plasma Appointments');
+    payload.append('_honey', document.getElementById('bfHoney').value);
+
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Sending…';
+
+    fetch(MAILER_ENDPOINT, { method: 'POST', body: payload })
+      .then(function(res){
+        return res.json().catch(function(){ return {}; }).then(function(result){
+          if(!res.ok || !result.success){
+            throw new Error(result.message || 'The mail server rejected the request.');
+          }
+        });
+      })
+      .then(function(){
+        document.getElementById('bfSuccessName').textContent = data.fullName.split(' ')[0];
+        document.getElementById('bfSuccessDateTime').textContent = dateLabel + ' at ' + timeLabel;
+        form.hidden = true;
+        successPanel.hidden = false;
+      })
+      .catch(function(){
+        showError("We couldn't send your request right now — please call us at 212.996.9500 or try again in a moment.");
+      })
+      .finally(function(){
+        submitBtn.disabled = false;
+        submitBtn.textContent = submitBtnLabel;
+      });
+  }
+
+  document.getElementById('bfBookAnother').addEventListener('click', function(){
+    form.reset();
+    buildTimeSlots();
+    hideError();
+    successPanel.hidden = true;
+    form.hidden = false;
+  });
 })();
 </script>
 </body>
