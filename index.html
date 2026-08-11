@@ -331,6 +331,21 @@ nav.primary a:hover,nav.primary a.active{color:var(--coral-deep);}
   position:relative;
   padding:40px 44px;
 }
+.bf-tabs{
+  display:flex;flex-wrap:wrap;gap:24px;
+  border-bottom:1px solid var(--line);margin-bottom:28px;
+}
+.bf-tab{
+  appearance:none;background:none;border:none;cursor:pointer;
+  font-family:'Manrope',sans-serif;font-size:13px;font-weight:700;
+  color:var(--ink-soft);text-transform:uppercase;letter-spacing:0.05em;
+  padding:0 0 14px;margin-bottom:-1px;
+  border-bottom:2px solid transparent;
+  transition:color .15s ease,border-color .15s ease;
+}
+.bf-tab:hover{color:var(--ink);}
+.bf-tab.active{color:var(--coral-deep);border-bottom-color:var(--coral);}
+
 .bf-header{margin-bottom:24px;}
 .bf-header h3{font-size:24px;margin-bottom:6px;}
 .bf-header p{font-size:13px;color:var(--ink-soft);margin:0;}
@@ -548,7 +563,13 @@ footer ul a:hover{color:var(--gold);}
       <!-- RIGHT: BOOKING FORM -->
       <div class="booking-main">
 
-        <form class="booking-form" id="bookingForm" novalidate>
+        <div class="bf-tabs" role="tablist">
+          <button type="button" class="bf-tab active" data-panel="book" role="tab" aria-selected="true">Book Appointment</button>
+          <button type="button" class="bf-tab" data-panel="reschedule" role="tab" aria-selected="false">Reschedule</button>
+          <button type="button" class="bf-tab" data-panel="cancel" role="tab" aria-selected="false">Cancel Appointment</button>
+        </div>
+
+        <form class="booking-form" id="bookingForm" data-panel="book" novalidate>
           <div class="bf-header">
             <h3>Schedule Your Visit</h3>
             <p>Fields marked <span class="req">*</span> are required.</p>
@@ -613,11 +634,110 @@ footer ul a:hover{color:var(--gold);}
           <p class="bf-disclaimer">By booking, you agree to be contacted by Care Plasma to confirm your appointment.</p>
         </form>
 
+        <!-- RESCHEDULE PANEL -->
+        <form class="booking-form" id="rescheduleForm" data-panel="reschedule" novalidate hidden>
+          <div class="bf-header">
+            <h3>Reschedule Your Appointment</h3>
+            <p>Tell us your current appointment and new preferred time — our team will confirm the change. Fields marked <span class="req">*</span> are required.</p>
+          </div>
+
+          <div class="bf-row">
+            <div class="bf-field">
+              <label class="bf-label" for="rsFullName">Full Name <span class="req">*</span></label>
+              <input type="text" id="rsFullName" name="fullName" placeholder="Jane Doe" required>
+            </div>
+            <div class="bf-field">
+              <label class="bf-label" for="rsPhone">Phone <span class="req">*</span></label>
+              <input type="tel" id="rsPhone" name="phone" placeholder="(212) 555-0100" required>
+            </div>
+          </div>
+
+          <div class="bf-field" style="margin-bottom:16px;">
+            <label class="bf-label" for="rsEmail">Email <span class="req">*</span></label>
+            <input type="email" id="rsEmail" name="email" placeholder="jane@email.com" required>
+          </div>
+
+          <div class="bf-divider"></div>
+
+          <div class="bf-field" style="margin-bottom:16px;">
+            <label class="bf-label" for="rsCurrentDate">Current Appointment Date <span class="req">*</span></label>
+            <input type="date" id="rsCurrentDate" name="currentDate" required>
+          </div>
+
+          <div class="bf-row">
+            <div class="bf-field">
+              <label class="bf-label" for="rsNewDate">New Preferred Date <span class="req">*</span></label>
+              <input type="date" id="rsNewDate" name="newDate" required>
+            </div>
+            <div class="bf-field">
+              <label class="bf-label" for="rsNewTime">New Preferred Time <span class="req">*</span></label>
+              <select id="rsNewTime" name="newTime" required>
+                <option value="" disabled selected>Select a time</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="bf-field" style="margin-bottom:20px;">
+            <label class="bf-label" for="rsNotes">Reason <span class="opt">(optional)</span></label>
+            <textarea id="rsNotes" name="notes" rows="3" placeholder="Anything we should know?"></textarea>
+          </div>
+
+          <div class="bf-error" id="rsError" role="alert" hidden></div>
+
+          <input type="text" name="_honey" id="rsHoney" autocomplete="off" tabindex="-1" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0;">
+
+          <button type="submit" class="btn btn-primary bf-submit">Send Reschedule Request →</button>
+          <p class="bf-disclaimer">We'll confirm your new appointment time by phone or email.</p>
+        </form>
+
+        <!-- CANCEL PANEL -->
+        <form class="booking-form" id="cancelForm" data-panel="cancel" novalidate hidden>
+          <div class="bf-header">
+            <h3>Cancel Your Appointment</h3>
+            <p>We're sorry to see you go — let us know which appointment to cancel. Fields marked <span class="req">*</span> are required.</p>
+          </div>
+
+          <div class="bf-row">
+            <div class="bf-field">
+              <label class="bf-label" for="clFullName">Full Name <span class="req">*</span></label>
+              <input type="text" id="clFullName" name="fullName" placeholder="Jane Doe" required>
+            </div>
+            <div class="bf-field">
+              <label class="bf-label" for="clPhone">Phone <span class="req">*</span></label>
+              <input type="tel" id="clPhone" name="phone" placeholder="(212) 555-0100" required>
+            </div>
+          </div>
+
+          <div class="bf-field" style="margin-bottom:16px;">
+            <label class="bf-label" for="clEmail">Email <span class="req">*</span></label>
+            <input type="email" id="clEmail" name="email" placeholder="jane@email.com" required>
+          </div>
+
+          <div class="bf-divider"></div>
+
+          <div class="bf-field" style="margin-bottom:16px;">
+            <label class="bf-label" for="clDate">Appointment Date to Cancel <span class="req">*</span></label>
+            <input type="date" id="clDate" name="apptDate" required>
+          </div>
+
+          <div class="bf-field" style="margin-bottom:20px;">
+            <label class="bf-label" for="clReason">Reason <span class="opt">(optional)</span></label>
+            <textarea id="clReason" name="reason" rows="3" placeholder="Optional — helps us improve"></textarea>
+          </div>
+
+          <div class="bf-error" id="clError" role="alert" hidden></div>
+
+          <input type="text" name="_honey" id="clHoney" autocomplete="off" tabindex="-1" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0;">
+
+          <button type="submit" class="btn btn-primary bf-submit">Send Cancellation Request →</button>
+          <p class="bf-disclaimer">We'll confirm the cancellation by phone or email.</p>
+        </form>
+
         <div class="bf-success" id="bfSuccess" hidden>
           <div class="bf-success-icon">✓</div>
-          <h3>Appointment Requested!</h3>
-          <p>Thanks, <span id="bfSuccessName"></span> — we've received your request for <span id="bfSuccessDateTime"></span>. Our team will reach out to confirm.</p>
-          <button type="button" class="btn btn-gold" id="bfBookAnother">Book Another Appointment</button>
+          <h3 id="bfSuccessTitle">Request Sent!</h3>
+          <p id="bfSuccessMsg"></p>
+          <button type="button" class="btn btn-gold" id="bfSuccessReset">Make Another Request</button>
         </div>
 
       </div>
@@ -688,27 +808,57 @@ footer ul a:hover{color:var(--gold);}
     toggle.textContent = open ? '✕' : '☰';
   });
 
-  /* ── BOOKING FORM ── */
+  /* ── BOOKING / RESCHEDULE / CANCEL FORMS ──
+     All three relay through the careplasma-mailer-api Cloudflare Worker
+     (github.com/venkatrx1/careplasmamailer), which emails MAIL_TO via the
+     Gmail API. The worker only recognizes generic name/email/phone/subject/
+     message fields — there's no real appointment database behind this page,
+     so reschedule/cancel are "request" forms: staff action the change after
+     reading the email, same as the old widget's confirmation-by-phone flow. */
   var MAILER_ENDPOINT = 'https://careplasma-mailer-api.venkatrx1.workers.dev';
 
-  var form = document.getElementById('bookingForm');
+  var panels = {
+    book: document.getElementById('bookingForm'),
+    reschedule: document.getElementById('rescheduleForm'),
+    cancel: document.getElementById('cancelForm')
+  };
+  var tabs = document.querySelectorAll('.bf-tab');
   var successPanel = document.getElementById('bfSuccess');
-  var errorBox = document.getElementById('bfError');
-  var dateInput = document.getElementById('apptDate');
-  var timeSelect = document.getElementById('apptTime');
-  var submitBtn = form.querySelector('.bf-submit');
-  var submitBtnLabel = submitBtn.textContent;
+  var successTitle = document.getElementById('bfSuccessTitle');
+  var successMsg = document.getElementById('bfSuccessMsg');
+  var activePanelKey = 'book';
 
-  /* Restrict date picker to today .. +90 days */
-  var today = new Date();
-  dateInput.min = today.toISOString().split('T')[0];
-  var maxDate = new Date(today);
-  maxDate.setDate(maxDate.getDate() + 90);
-  dateInput.max = maxDate.toISOString().split('T')[0];
+  function showPanel(key){
+    activePanelKey = key;
+    Object.keys(panels).forEach(function(k){ panels[k].hidden = (k !== key); });
+    successPanel.hidden = true;
+    tabs.forEach(function(t){
+      var isActive = t.dataset.panel === key;
+      t.classList.toggle('active', isActive);
+      t.setAttribute('aria-selected', isActive);
+    });
+  }
+  tabs.forEach(function(t){
+    t.addEventListener('click', function(){ showPanel(t.dataset.panel); });
+  });
+
+  function showSuccess(title, msg){
+    Object.keys(panels).forEach(function(k){ panels[k].hidden = true; });
+    successTitle.textContent = title;
+    successMsg.textContent = msg;
+    successPanel.hidden = false;
+  }
+  document.getElementById('bfSuccessReset').addEventListener('click', function(){
+    Object.keys(panels).forEach(function(k){ panels[k].reset(); });
+    buildTimeSlots(document.getElementById('apptTime'));
+    buildTimeSlots(document.getElementById('rsNewTime'));
+    document.querySelectorAll('.bf-error').forEach(function(el){ el.hidden = true; });
+    showPanel(activePanelKey);
+  });
 
   /* Populate time slots: Mon–Sat, 9:00 AM – 5:00 PM, 30-min increments */
-  function buildTimeSlots(){
-    timeSelect.innerHTML = '<option value="" disabled selected>Select a time</option>';
+  function buildTimeSlots(select){
+    select.innerHTML = '<option value="" disabled selected>Select a time</option>';
     for(var h = 9; h < 17; h++){
       [0, 30].forEach(function(m){
         var hour12 = h > 12 ? h - 12 : h;
@@ -718,62 +868,99 @@ footer ul a:hover{color:var(--gold);}
         var opt = document.createElement('option');
         opt.value = value;
         opt.textContent = label;
-        timeSelect.appendChild(opt);
+        select.appendChild(opt);
       });
     }
   }
-  buildTimeSlots();
 
-  dateInput.addEventListener('change', function(){
-    var d = new Date(dateInput.value + 'T00:00:00');
-    if(d.getDay() === 0){
-      showError("We're closed on Sundays — please choose Monday through Saturday.");
-      dateInput.value = '';
-    } else {
-      hideError();
+  function setDateRange(input, minDays, maxDays){
+    var min = new Date();
+    min.setDate(min.getDate() + minDays);
+    input.min = min.toISOString().split('T')[0];
+    if(maxDays != null){
+      var max = new Date();
+      max.setDate(max.getDate() + maxDays);
+      input.max = max.toISOString().split('T')[0];
     }
-  });
-
-  function showError(msg){
-    errorBox.textContent = msg;
-    errorBox.hidden = false;
-  }
-  function hideError(){
-    errorBox.hidden = true;
   }
 
-  form.addEventListener('submit', function(e){
+  function blockSundays(input, errorBox){
+    input.addEventListener('change', function(){
+      if(!input.value) return;
+      var d = new Date(input.value + 'T00:00:00');
+      if(d.getDay() === 0){
+        errorBox.textContent = "We're closed on Sundays — please choose Monday through Saturday.";
+        errorBox.hidden = false;
+        input.value = '';
+      } else {
+        errorBox.hidden = true;
+      }
+    });
+  }
+
+  function formatDate(isoStr){
+    return new Date(isoStr + 'T00:00:00').toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' });
+  }
+
+  function isValidEmail(v){ return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v); }
+  function isValidPhone(v){ return v.replace(/\D/g, '').length >= 10; }
+
+  function postToMailer(fields, submitBtn){
+    var payload = new FormData();
+    Object.keys(fields).forEach(function(k){ payload.append(k, fields[k]); });
+    var originalLabel = submitBtn.textContent;
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Sending…';
+    return fetch(MAILER_ENDPOINT, { method: 'POST', body: payload })
+      .then(function(res){
+        return res.json().catch(function(){ return {}; }).then(function(result){
+          if(!res.ok || !result.success){
+            throw new Error(result.message || 'The mail server rejected the request.');
+          }
+        });
+      })
+      .finally(function(){
+        submitBtn.disabled = false;
+        submitBtn.textContent = originalLabel;
+      });
+  }
+
+  var FAIL_MSG = "We couldn't send your request right now — please call us at 212.996.9500 or try again in a moment.";
+
+  /* ── BOOK ── */
+  var bookForm = panels.book;
+  var bookError = document.getElementById('bfError');
+  var bookDate = document.getElementById('apptDate');
+  var bookTime = document.getElementById('apptTime');
+  var bookSubmit = bookForm.querySelector('.bf-submit');
+
+  setDateRange(bookDate, 0, 90);
+  buildTimeSlots(bookTime);
+  blockSundays(bookDate, bookError);
+
+  bookForm.addEventListener('submit', function(e){
     e.preventDefault();
-    hideError();
+    bookError.hidden = true;
 
     var data = {
-      appointmentType: form.apptType.value,
-      date: form.apptDate.value,
-      time: form.apptTime.value,
-      fullName: form.fullName.value.trim(),
-      age: form.age.value,
-      email: form.email.value.trim(),
-      phone: form.phone.value.trim(),
-      notes: form.notes.value.trim()
+      appointmentType: bookForm.apptType.value,
+      date: bookForm.apptDate.value,
+      time: bookForm.apptTime.value,
+      fullName: bookForm.fullName.value.trim(),
+      age: bookForm.age.value,
+      email: bookForm.email.value.trim(),
+      phone: bookForm.phone.value.trim(),
+      notes: bookForm.notes.value.trim()
     };
 
-    if(!data.date || !data.time){ showError('Please select a date and time.'); return; }
-    if(!data.fullName){ showError('Please enter your full name.'); return; }
-    if(!data.age || Number(data.age) < 18){ showError('You must be at least 18 years old to donate.'); return; }
-    if(!data.email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email)){ showError('Please enter a valid email address.'); return; }
-    if(!data.phone || data.phone.replace(/\D/g, '').length < 10){ showError('Please enter a valid phone number.'); return; }
+    if(!data.date || !data.time){ bookError.textContent = 'Please select a date and time.'; bookError.hidden = false; return; }
+    if(!data.fullName){ bookError.textContent = 'Please enter your full name.'; bookError.hidden = false; return; }
+    if(!data.age || Number(data.age) < 18){ bookError.textContent = 'You must be at least 18 years old to donate.'; bookError.hidden = false; return; }
+    if(!data.email || !isValidEmail(data.email)){ bookError.textContent = 'Please enter a valid email address.'; bookError.hidden = false; return; }
+    if(!data.phone || !isValidPhone(data.phone)){ bookError.textContent = 'Please enter a valid phone number.'; bookError.hidden = false; return; }
 
-    submitAppointment(data);
-  });
-
-  /* Relays the request through the careplasma-mailer-api Cloudflare Worker
-     (github.com/venkatrx1/careplasmamailer), which emails MAIL_TO via the
-     Gmail API. The worker only recognizes generic name/email/phone/subject/
-     message fields, so date/time/age/notes are folded into the message body. */
-  function submitAppointment(data){
-    var dt = new Date(data.date + 'T00:00:00');
-    var dateLabel = dt.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' });
-    var timeLabel = timeSelect.options[timeSelect.selectedIndex].textContent;
+    var dateLabel = formatDate(data.date);
+    var timeLabel = bookTime.options[bookTime.selectedIndex].textContent;
     var typeLabel = data.appointmentType === 'returning' ? 'Returning Donor' : 'New Donor — First Visit';
 
     var message =
@@ -783,48 +970,134 @@ footer ul a:hover{color:var(--gold);}
       'Age: ' + data.age + '\n' +
       'Notes: ' + (data.notes || '(none)');
 
-    var payload = new FormData();
-    payload.append('name', data.fullName);
-    payload.append('email', data.email);
-    payload.append('phone', data.phone);
-    payload.append('subject', typeLabel + ' — ' + dateLabel);
-    payload.append('message', message);
-    payload.append('_subject', 'New Appointment Request — Care Plasma');
-    payload.append('_from_name', 'Care Plasma Appointments');
-    payload.append('_honey', document.getElementById('bfHoney').value);
-
-    submitBtn.disabled = true;
-    submitBtn.textContent = 'Sending…';
-
-    fetch(MAILER_ENDPOINT, { method: 'POST', body: payload })
-      .then(function(res){
-        return res.json().catch(function(){ return {}; }).then(function(result){
-          if(!res.ok || !result.success){
-            throw new Error(result.message || 'The mail server rejected the request.');
-          }
-        });
-      })
+    postToMailer({
+      name: data.fullName,
+      email: data.email,
+      phone: data.phone,
+      subject: typeLabel + ' — ' + dateLabel,
+      message: message,
+      _subject: 'New Appointment Request — Care Plasma',
+      _from_name: 'Care Plasma Appointments',
+      _honey: document.getElementById('bfHoney').value
+    }, bookSubmit)
       .then(function(){
-        document.getElementById('bfSuccessName').textContent = data.fullName.split(' ')[0];
-        document.getElementById('bfSuccessDateTime').textContent = dateLabel + ' at ' + timeLabel;
-        form.hidden = true;
-        successPanel.hidden = false;
+        showSuccess('Appointment Requested!', "Thanks, " + data.fullName.split(' ')[0] + " — we've received your request for " + dateLabel + ' at ' + timeLabel + '. Our team will reach out to confirm.');
       })
       .catch(function(){
-        showError("We couldn't send your request right now — please call us at 212.996.9500 or try again in a moment.");
-      })
-      .finally(function(){
-        submitBtn.disabled = false;
-        submitBtn.textContent = submitBtnLabel;
+        bookError.textContent = FAIL_MSG;
+        bookError.hidden = false;
       });
-  }
+  });
 
-  document.getElementById('bfBookAnother').addEventListener('click', function(){
-    form.reset();
-    buildTimeSlots();
-    hideError();
-    successPanel.hidden = true;
-    form.hidden = false;
+  /* ── RESCHEDULE ── */
+  var rsForm = panels.reschedule;
+  var rsError = document.getElementById('rsError');
+  var rsCurrentDate = document.getElementById('rsCurrentDate');
+  var rsNewDate = document.getElementById('rsNewDate');
+  var rsNewTime = document.getElementById('rsNewTime');
+  var rsSubmit = rsForm.querySelector('.bf-submit');
+
+  setDateRange(rsCurrentDate, 0, null);
+  setDateRange(rsNewDate, 0, 90);
+  buildTimeSlots(rsNewTime);
+  blockSundays(rsNewDate, rsError);
+
+  rsForm.addEventListener('submit', function(e){
+    e.preventDefault();
+    rsError.hidden = true;
+
+    var data = {
+      fullName: rsForm.fullName.value.trim(),
+      phone: rsForm.phone.value.trim(),
+      email: rsForm.email.value.trim(),
+      currentDate: rsForm.currentDate.value,
+      newDate: rsForm.newDate.value,
+      newTime: rsForm.newTime.value,
+      notes: rsForm.notes.value.trim()
+    };
+
+    if(!data.fullName){ rsError.textContent = 'Please enter your full name.'; rsError.hidden = false; return; }
+    if(!data.email || !isValidEmail(data.email)){ rsError.textContent = 'Please enter a valid email address.'; rsError.hidden = false; return; }
+    if(!data.phone || !isValidPhone(data.phone)){ rsError.textContent = 'Please enter a valid phone number.'; rsError.hidden = false; return; }
+    if(!data.currentDate){ rsError.textContent = 'Please enter your current appointment date.'; rsError.hidden = false; return; }
+    if(!data.newDate || !data.newTime){ rsError.textContent = 'Please select a new date and time.'; rsError.hidden = false; return; }
+
+    var currentDateLabel = formatDate(data.currentDate);
+    var newDateLabel = formatDate(data.newDate);
+    var newTimeLabel = rsNewTime.options[rsNewTime.selectedIndex].textContent;
+
+    var message =
+      'Current Appointment Date: ' + currentDateLabel + '\n' +
+      'Requested New Date: ' + newDateLabel + '\n' +
+      'Requested New Time: ' + newTimeLabel + '\n' +
+      'Reason / Notes: ' + (data.notes || '(none)');
+
+    postToMailer({
+      name: data.fullName,
+      email: data.email,
+      phone: data.phone,
+      subject: 'Reschedule Request — ' + currentDateLabel + ' to ' + newDateLabel,
+      message: message,
+      _subject: 'Appointment Reschedule Request — Care Plasma',
+      _from_name: 'Care Plasma Appointments',
+      _honey: document.getElementById('rsHoney').value
+    }, rsSubmit)
+      .then(function(){
+        showSuccess('Reschedule Request Sent!', "Thanks, " + data.fullName.split(' ')[0] + " — we've received your request to move your " + currentDateLabel + ' appointment to ' + newDateLabel + ' at ' + newTimeLabel + '. Our team will confirm shortly.');
+      })
+      .catch(function(){
+        rsError.textContent = FAIL_MSG;
+        rsError.hidden = false;
+      });
+  });
+
+  /* ── CANCEL ── */
+  var clForm = panels.cancel;
+  var clError = document.getElementById('clError');
+  var clDate = document.getElementById('clDate');
+  var clSubmit = clForm.querySelector('.bf-submit');
+
+  setDateRange(clDate, 0, null);
+
+  clForm.addEventListener('submit', function(e){
+    e.preventDefault();
+    clError.hidden = true;
+
+    var data = {
+      fullName: clForm.fullName.value.trim(),
+      phone: clForm.phone.value.trim(),
+      email: clForm.email.value.trim(),
+      apptDate: clForm.apptDate.value,
+      reason: clForm.reason.value.trim()
+    };
+
+    if(!data.fullName){ clError.textContent = 'Please enter your full name.'; clError.hidden = false; return; }
+    if(!data.email || !isValidEmail(data.email)){ clError.textContent = 'Please enter a valid email address.'; clError.hidden = false; return; }
+    if(!data.phone || !isValidPhone(data.phone)){ clError.textContent = 'Please enter a valid phone number.'; clError.hidden = false; return; }
+    if(!data.apptDate){ clError.textContent = 'Please enter the appointment date to cancel.'; clError.hidden = false; return; }
+
+    var dateLabel = formatDate(data.apptDate);
+    var message =
+      'Appointment Date to Cancel: ' + dateLabel + '\n' +
+      'Reason: ' + (data.reason || '(none)');
+
+    postToMailer({
+      name: data.fullName,
+      email: data.email,
+      phone: data.phone,
+      subject: 'Cancellation Request — ' + dateLabel,
+      message: message,
+      _subject: 'Appointment Cancellation Request — Care Plasma',
+      _from_name: 'Care Plasma Appointments',
+      _honey: document.getElementById('clHoney').value
+    }, clSubmit)
+      .then(function(){
+        showSuccess('Cancellation Request Sent!', "Thanks, " + data.fullName.split(' ')[0] + " — we've received your request to cancel your " + dateLabel + ' appointment. Our team will confirm shortly.');
+      })
+      .catch(function(){
+        clError.textContent = FAIL_MSG;
+        clError.hidden = false;
+      });
   });
 })();
 </script>
