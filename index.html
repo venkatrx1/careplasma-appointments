@@ -367,6 +367,7 @@ nav.primary a:hover,nav.primary a.active{color:var(--coral-deep);}
 .bf-radio:has(input:checked){border-color:var(--coral);background:rgba(226,84,63,0.06);}
 
 .bf-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;}
+.bf-row-address{grid-template-columns:1.4fr 0.7fr 0.8fr;}
 .bf-field{display:flex;flex-direction:column;}
 .bf-field-sm{max-width:140px;}
 .bf-field input,.bf-field select,.bf-field textarea{
@@ -402,7 +403,7 @@ nav.primary a:hover,nav.primary a.active{color:var(--coral-deep);}
 .bf-success p{font-size:14.5px;color:var(--ink-soft);max-width:420px;margin:0 auto 24px;}
 
 @media(max-width:600px){
-  .bf-row{grid-template-columns:1fr;}
+  .bf-row,.bf-row-address{grid-template-columns:1fr;}
   .bf-field-sm{max-width:100%;}
   .booking-main{padding:28px 22px;}
 }
@@ -617,6 +618,26 @@ footer ul a:hover{color:var(--gold);}
             <div class="bf-field">
               <label class="bf-label" for="phone">Phone <span class="req">*</span></label>
               <input type="tel" id="phone" name="phone" placeholder="(212) 555-0100" required>
+            </div>
+          </div>
+
+          <div class="bf-field" style="margin-bottom:16px;">
+            <label class="bf-label" for="address">Street Address <span class="req">*</span></label>
+            <input type="text" id="address" name="address" placeholder="123 Main St, Apt 4B" required>
+          </div>
+
+          <div class="bf-row bf-row-address">
+            <div class="bf-field">
+              <label class="bf-label" for="city">City <span class="req">*</span></label>
+              <input type="text" id="city" name="city" placeholder="New York" required>
+            </div>
+            <div class="bf-field">
+              <label class="bf-label" for="state">State <span class="req">*</span></label>
+              <input type="text" id="state" name="state" placeholder="NY" maxlength="2" style="text-transform:uppercase;" required>
+            </div>
+            <div class="bf-field">
+              <label class="bf-label" for="zip">Zip <span class="req">*</span></label>
+              <input type="text" id="zip" name="zip" placeholder="10026" inputmode="numeric" maxlength="10" required>
             </div>
           </div>
 
@@ -950,6 +971,10 @@ footer ul a:hover{color:var(--gold);}
       age: bookForm.age.value,
       email: bookForm.email.value.trim(),
       phone: bookForm.phone.value.trim(),
+      address: bookForm.address.value.trim(),
+      city: bookForm.city.value.trim(),
+      state: bookForm.state.value.trim().toUpperCase(),
+      zip: bookForm.zip.value.trim(),
       notes: bookForm.notes.value.trim()
     };
 
@@ -958,6 +983,10 @@ footer ul a:hover{color:var(--gold);}
     if(!data.age || Number(data.age) < 18){ bookError.textContent = 'You must be at least 18 years old to donate.'; bookError.hidden = false; return; }
     if(!data.email || !isValidEmail(data.email)){ bookError.textContent = 'Please enter a valid email address.'; bookError.hidden = false; return; }
     if(!data.phone || !isValidPhone(data.phone)){ bookError.textContent = 'Please enter a valid phone number.'; bookError.hidden = false; return; }
+    if(!data.address){ bookError.textContent = 'Please enter your street address.'; bookError.hidden = false; return; }
+    if(!data.city){ bookError.textContent = 'Please enter your city.'; bookError.hidden = false; return; }
+    if(!data.state || data.state.length !== 2){ bookError.textContent = 'Please enter a valid 2-letter state (e.g. NY).'; bookError.hidden = false; return; }
+    if(!data.zip || !/^\d{5}(-\d{4})?$/.test(data.zip)){ bookError.textContent = 'Please enter a valid zip code.'; bookError.hidden = false; return; }
 
     var dateLabel = formatDate(data.date);
     var timeLabel = bookTime.options[bookTime.selectedIndex].textContent;
@@ -968,6 +997,7 @@ footer ul a:hover{color:var(--gold);}
       'Requested Date: ' + dateLabel + '\n' +
       'Requested Time: ' + timeLabel + '\n' +
       'Age: ' + data.age + '\n' +
+      'Address: ' + data.address + ', ' + data.city + ', ' + data.state + ' ' + data.zip + '\n' +
       'Notes: ' + (data.notes || '(none)');
 
     postToMailer({
